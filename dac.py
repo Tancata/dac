@@ -1,6 +1,6 @@
 #Divide and Cluster, currently just on the longest internal branch.
 
-import sys, os
+import sys, os, argparse
 from ete3 import Tree
 from Bio import SeqIO
 
@@ -36,16 +36,39 @@ def create_subalignment(subtree, label): #given a subtree object, create a seque
     for seq in clan_seqs:
         outh.write(">" + seq + "\n" + clan_seqs[seq] + "\n")
     outh.close()
-    os.system("mafft --auto " + clan_sequences_name + " > " + clan_alignment_name) #for speed in testing
-    #os.system("mafft --localpair --maxiterate 1000 " + clan_sequences_name + " > " + clan_alignment_name) 
+    #os.system("mafft --auto " + clan_sequences_name + " > " + clan_alignment_name) #for speed in testing
+    os.system("mafft --localpair --maxiterate 1000 " + clan_sequences_name + " > " + clan_alignment_name) 
     os.system("divvier -partial -mincol 4 -divvygap " + clan_alignment_name)
-    os.system("fasttree -lg -gamma " + clan_alignment_name + ".partial.fas > " + subtree_name) #for speed in testing, could add option to do this for the dividing at the start, too.
+    #os.system("fasttree -lg -gamma " + clan_alignment_name + ".partial.fas > " + subtree_name) #for speed in testing, could add option to do this for the dividing at the start, too.
+    os.system("iqtree2 -s " + clan_alignment_name + ".partial.fas -m MFP -mset LG -madd LG+C20,LG+C30,LG+C40,LG+C50,LG+C60,LG+C20+F,LG+C30+F,LG+C40+F,LG+C50+F,LG+C60+F --score-diff ALL -B 10000 -wbtl")
 
+def infer_initial_tree(seqfile): #if no user tree, get an initial tree
+    os.system("mafft --auto " + seqfile + " > " + seqfile + "_initial.aln")
+    os.system("iqtree2 -s " + seqfile + "_initial.aln -m LG+G+F")
+    tf = seqfile + "_initial.aln.treefile"
+    return tf
 
+#arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("-s", "--sequences", help="Input file of sequences. They don't have to be aligned.")
+parser.add_argument("-t", "--tree", help="Initial tree for dividing the gene family. If not provided, inferred using IQ-TREE2 under the LG+G+F model.")
+
+args = parser.parse_args()
+if args.sequences:
+    pass
+else:
+    print("Please provide sequences with --sequences.")
+    quit()
+
+treefile = ''
+if args.tree:
+    treefile = args.tree
+else:
+    treefile = infer_initial_tree(sequences)
 
 #main part    
-sequences = SeqIO.index(sys.argv[1], "fasta")
-tree = Tree(sys.argv[2])
+sequences = SeqIO.index(args.sequences, "fasta")
+tree = Tree(treefile)
 
 (s1, s2) = cut_on_longest_internal_branch(tree)
 if s2 == "No cut":
