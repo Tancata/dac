@@ -64,7 +64,7 @@ treefile = ''
 if args.tree:
     treefile = args.tree
 else:
-    treefile = infer_initial_tree(sequences)
+    treefile = infer_initial_tree(args.sequences)
 
 #main part    
 sequences = SeqIO.index(args.sequences, "fasta")
