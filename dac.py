@@ -39,7 +39,7 @@ def create_subalignment(subtree, label): #given a subtree object, create a seque
     os.system("mafft --auto " + clan_sequences_name + " > " + clan_alignment_name) #for speed in testing
     #os.system("mafft --localpair --maxiterate 1000 " + clan_sequences_name + " > " + clan_alignment_name) 
     os.system("divvier -partial -mincol 4 -divvygap " + clan_alignment_name)
-    os.system("fasttree -lg -gamma " + clan_alignment_name[:-3] + "partial.fas > " + subtree_name) #for speed in testing, could add option to do this for the dividing at the start, too.
+    os.system("fasttree -lg -gamma " + clan_alignment_name + ".partial.fas > " + subtree_name) #for speed in testing, could add option to do this for the dividing at the start, too.
 
 
 
