@@ -1,6 +1,7 @@
 # dac
 Divide and Cluster
 
+python3 dac.py -s sequences [-t initial tree for dividing]
 # Dependencies
 
 Python 3
@@ -15,4 +16,4 @@ divvier https://github.com/simonwhelan/Divvier
 
 IQ-TREE2 http://www.iqtree.org/
 
-ALEobserve https://github.com/ssolo/ALE
+ALEObserve https://github.com/ssolo/ALE
