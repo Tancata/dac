@@ -9,8 +9,7 @@ BioPython https://biopython.org/
 
 ete3 http://etetoolkit.org/
 
-
-mafft
+mafft https://mafft.cbrc.jp/alignment/software/algorithms/algorithms.html
 
 divvier https://github.com/simonwhelan/Divvier
 
