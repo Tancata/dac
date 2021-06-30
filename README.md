@@ -16,4 +16,4 @@ divvier https://github.com/simonwhelan/Divvier
 
 IQ-TREE2 http://www.iqtree.org/
 
-ALEobserve https://github.com/ssolo/ALE
+ALEObserve https://github.com/ssolo/ALE
