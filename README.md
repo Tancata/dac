@@ -1,6 +1,7 @@
 # dac
 Divide and Cluster
 
+python3 dac.py -s sequences [-t initial tree for dividing]
 # Dependencies
 
 Python 3
