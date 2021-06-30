@@ -41,6 +41,7 @@ def create_subalignment(subtree, label): #given a subtree object, create a seque
     os.system("divvier -partial -mincol 4 -divvygap " + clan_alignment_name)
     #os.system("fasttree -lg -gamma " + clan_alignment_name + ".partial.fas > " + subtree_name) #for speed in testing, could add option to do this for the dividing at the start, too.
     os.system("iqtree2 -s " + clan_alignment_name + ".partial.fas -m MFP -mset LG -madd LG+C20,LG+C30,LG+C40,LG+C50,LG+C60,LG+C20+F,LG+C30+F,LG+C40+F,LG+C50+F,LG+C60+F --score-diff ALL -B 10000 -wbtl")
+    #os.system("ALEobserve " + clan_alignment_name + ".partial.fas.ufboot") #uncomment this for it to maybe work on a machine with ALEobserve
 
 def infer_initial_tree(seqfile): #if no user tree, get an initial tree
     os.system("mafft --auto " + seqfile + " > " + seqfile + "_initial.aln")
@@ -78,23 +79,3 @@ if s2 == "No cut":
 #now create sequence sets for the subtrees, align, and run trees
 create_subalignment(s1, "clan1")
 create_subalignment(s2, "clan2")
-
-
-
-#trees_done = []
-#trees_todo = []
-
-#trees_todo.append(tree)
-#while len(trees_todo) > 0:
-#    (s1, s2) = bissect_tree(trees_todo.pop())
-#    if s2 == 'Zilch': #no problem branches
-#        trees_done.append(s1)
-#    else:
-#        trees_done.append(s1) #This relies on postorder and levelorder (gradually go deeper into tree), to prevent an infinite loop when cutting
-#        trees_todo.append(s2)
-
-#Write out the results
-#counter = 0
-#for tree in trees_done:
-#    tree.write(outfile=sys.argv[2][:-4] + "_" + str(counter) + ".tre")
-#    counter += 1
